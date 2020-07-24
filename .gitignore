@@ -1,0 +1,7 @@
+*.DS_Store
+credentials.json
+
+*.aux
+*.log
+*.toc
+*.pdf
