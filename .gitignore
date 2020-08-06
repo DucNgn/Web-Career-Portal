@@ -1,3 +1,4 @@
+node_modules
 *.DS_Store
 credentials.json
 
@@ -5,3 +6,5 @@ credentials.json
 *.log
 *.toc
 *.pdf
+env
+__pycache__/
