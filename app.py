@@ -1,9 +1,14 @@
 #!/usr/bin/env python
-from flask import Flask, url_for, render_template, request
-import dbfunctions
+from flask import Flask, url_for, render_template, request, session
+#import dbfunctions
 import jinja2.exceptions
+import secrets
+secret_key = secrets.token_hex(16)
 
 app = Flask(__name__)
+
+import auth
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -35,4 +40,5 @@ def admin(pagename):
     return render_template(pagename+'.html')
 
 if __name__ == '__main__':
+    app.config['SECRET_KEY'] = secret_key
     app.run(debug=True)

@@ -76,3 +76,39 @@ def postJob(job_title):
     except Exception as e:
         print("Problem inserting into db: " + str(e))
         return False
+
+def verifyAccount(email, password):
+    email.replace(" ", "")
+    password.replace(" ", "")
+    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')" 
+    sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
+
+    print(sqlUser)
+    try:
+        cursor.execute(sqlUser)
+        result = cursor.fetchall()
+        if result[0][0] == 0:
+            cursor.execute(sqlAdmin)
+            result = cursor.fetchall()
+        return result[0][0]
+    except Exception as e:
+        print("Problem verifying user info: " + str(e))
+        return False
+
+
+def getUserID(email, password):
+    sql = "SELECT ID FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result:
+            return result
+        else:
+            sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'" 
+            cursor.execute(sqlAdmin)
+            result = cursor.fetchall()
+        return result
+    except Exception as e:
+        print("Problem getting user ID: " + str(e))
+        return False
+
