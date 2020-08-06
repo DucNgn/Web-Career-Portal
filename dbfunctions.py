@@ -45,7 +45,7 @@ print("Connected to database")
 # db.close()
 
 def getJobs():
-    sql = "SELECT * FROM jobs;"
+    sql = "SELECT * FROM jobs ;"
 
     results = []
     try:
@@ -62,3 +62,17 @@ def getJobs():
     field_names = [i[0] for i in cursor.description]
 
     return field_names, results
+
+def postJob(job_title):
+    sql = "INSERT INTO jobs(job_title) VALUES(\'"+job_title+"\');"
+
+    # print(sql)
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Commit SQL command
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem inserting into db: " + str(e))
+        return False
