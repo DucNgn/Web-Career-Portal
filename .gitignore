@@ -7,3 +7,4 @@ credentials.json
 *.toc
 *.pdf
 env
+__pycache__/
