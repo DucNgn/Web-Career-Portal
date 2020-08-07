@@ -4,7 +4,7 @@ from dbfunctions import verifyAccount, getUserID
 
 @app.before_request
 def require_login():
-    allowed_routes = ['welcome', 'login', 'register']
+    allowed_routes = ['welcome', 'register', 'login', 'static']
     if request.endpoint not in allowed_routes and 'email' not in session:
         return redirect('/login')
 
@@ -36,6 +36,16 @@ def login():
                 print("Error: Cannot store session")            
             return redirect('index')
     return render_template("login.html")
+
+@app.route("/register", methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        firstName = request.form['firstname']
+        lastName = request.form['lastname']
+        email = request.form['email']
+        password = request.form['pass']
+        return redirect('login')
+    return render_template("register.html")
 
 @app.route("/logout")
 def logout():
