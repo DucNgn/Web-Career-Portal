@@ -83,7 +83,7 @@ def verifyAccount(email, password):
     sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')" 
     sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
 
-    # print(sqlUser)
+    print(sqlUser)
     try:
         cursor.execute(sqlUser)
         result = cursor.fetchall()
@@ -102,29 +102,13 @@ def getUserID(email, password):
         cursor.execute(sql)
         result = cursor.fetchall()
         if result:
-            return result[0][0]
+            return result
         else:
             sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'" 
             cursor.execute(sqlAdmin)
             result = cursor.fetchall()
-            for item in results:
-                print(item)
         return result[0][0]
     except Exception as e:
         print("Problem getting user ID: " + str(e))
         return False
 
-def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
-    # sql = "INSERT INTO applyTo VALUES(\'1231221\',\'1232112\',\'2020-02-02\',\'pending\',\'coverletter\',\'resume\');"
-    sql = "INSERT INTO applyTo VALUES(\'"+jobSeekerID+"\',\'"+jobID+"\',\'"+appliedDate+"\',\'pending\',\'"+coverLetter+"\',\'"+resume+"\');"
-
-    print(sql)
-    try:
-        # Execute the SQL command
-        cursor.execute(sql)
-        # Commit SQL command
-        db.commit()
-        return True
-    except Exception as e:
-        print("Problem inserting into db: " + str(e))
-        return False
