@@ -424,7 +424,16 @@
             {% endif %} {% endwith %} 
           </div> -->
 
-          {% block content %} {% endblock %}
+          {% block content %} 
+          
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+          </div>
+          {% endfor %}
+          
+          {% endblock %}
 
 
       <!-- Footer -->
