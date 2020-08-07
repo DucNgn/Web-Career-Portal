@@ -26,14 +26,15 @@ def login():
             session["email"] = email
             ID = getUserID(email, password)
             session["ID"] = ID
-            if (str(ID))[0:3] == '999':
+            tempID = str(ID)
+            if tempID[0:3] == '999':
                 session["role"] = "Admin"
-            elif (str(ID))[0:3] == '312':
+            elif tempID[0:3] == '312':
                 session["role"] = 'Employer'
-            elif (str(ID))[0:3] == '123':
+            elif tempID[0:3] == '123':
                 session["role"] = 'Seeker'
             else:
-                print("Error: Cannot store session")            
+                print("Error: Cannot determine role for session")            
             return redirect('index')
     return render_template("login.html")
 
