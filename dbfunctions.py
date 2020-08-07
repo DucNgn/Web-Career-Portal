@@ -107,7 +107,7 @@ def getUserID(email, password):
             sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'" 
             cursor.execute(sqlAdmin)
             result = cursor.fetchall()
-        return result
+        return result[0][0]
     except Exception as e:
         print("Problem getting user ID: " + str(e))
         return False
