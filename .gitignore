@@ -8,3 +8,4 @@ credentials.json
 *.pdf
 env
 __pycache__/
+config.py

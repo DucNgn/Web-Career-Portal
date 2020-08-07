@@ -4,7 +4,7 @@ A repo for the main project of Databases class, summer 2020
 
 # Installation
 
-## 0. Change config.py
+## 0. Create config.py
 
 ## 1. Create virtual environment
 
