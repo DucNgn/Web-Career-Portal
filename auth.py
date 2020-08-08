@@ -1,6 +1,6 @@
 from __main__ import app
 from flask import flash, request, render_template, url_for, redirect, session
-from dbfunctions import verifyAccount, getUserID, emailExisted
+from dbfunctions import verifyAccount, getUserID, emailExisted, registerUser
 
 @app.before_request
 def require_login():
@@ -43,10 +43,23 @@ def register():
     if request.method == 'POST':
         firstName = request.form['firstname']
         lastName = request.form['lastname']
+        title = request.form.get('title')
         email = request.form['email']
         password = request.form['pass']
-        return redirect('login')
-    return render_template("register.html")
+        role = request.form.get('role')
+        print('Done getting info from the form')
+        if emailExisted(email):
+            flash("Your email is already registered in our system. Please log in instead", "warning")
+            return redirect(request.url)
+        else:
+            if registerUser(firstName, lastName, title, email, password, role):
+                flash("Registered successfully, login to get started", "success")
+                return redirect(request.url)                
+            else:
+                flash("An unexpected problem occurred, please try again", "warning")
+                return redirect(request.url) 
+    else:
+        return render_template("register.html")
 
 @app.route("/forgotPassword", methods=['POST', 'GET'])
 def forgotPassword():
