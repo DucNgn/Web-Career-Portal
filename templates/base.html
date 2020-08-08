@@ -77,18 +77,18 @@
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Users</span>
-        </a>
-        <div id="collapseUsers" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <!-- <h6 class="collapse-header">Custom Components:</h6> -->
-            <a class="collapse-item" href="viewUsers">View Users</a>
-          </div>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
+      <i class="fas fa-users"></i>
+        <span>Users</span>
+      </a>
+      <div id="collapseUsers" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <!-- <h6 class="collapse-header">Custom Components:</h6> -->
+          <a class="collapse-item" href="viewUsers">View Users</a>
         </div>
-      </li>
+      </div>
+    </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -421,18 +421,18 @@
                     {% endfor %}
                 </ul>
             </div>
-            {% endif %} {% endwith %} 
+            {% endif %} {% endwith %}
           </div> -->
 
-          {% block content %} 
-          
+          {% block content %}
+
           {% for message in get_flashed_messages() %}
           <div class="alert alert-warning">
               <button type="button" class="close" data-dismiss="alert">&times;</button>
               {{ message }}
           </div>
           {% endfor %}
-          
+
           {% endblock %}
 
 
