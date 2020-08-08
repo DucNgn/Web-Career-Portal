@@ -1,10 +1,10 @@
 from __main__ import app
 from flask import flash, request, render_template, url_for, redirect, session
-from dbfunctions import verifyAccount, getUserID
+from dbfunctions import verifyAccount, getUserID, emailExisted, registerUser
 
 @app.before_request
 def require_login():
-    allowed_routes = ['welcome', 'register', 'login', 'static']
+    allowed_routes = ['welcome', 'register', 'login', 'static', 'forgotPassword']
     if request.endpoint not in allowed_routes and 'email' not in session:
         return redirect('/login')
 
@@ -43,10 +43,36 @@ def register():
     if request.method == 'POST':
         firstName = request.form['firstname']
         lastName = request.form['lastname']
+        title = request.form.get('title')
         email = request.form['email']
         password = request.form['pass']
-        return redirect('login')
-    return render_template("register.html")
+        role = request.form.get('role')
+        print('Done getting info from the form')
+        if emailExisted(email):
+            flash("Your email is already registered in our system. Please log in instead", "warning")
+            return redirect(request.url)
+        else:
+            if registerUser(firstName, lastName, title, email, password, role):
+                flash("Registered successfully, login to get started", "success")
+                return redirect(request.url)                
+            else:
+                flash("An unexpected problem occurred, please try again", "warning")
+                return redirect(request.url) 
+    else:
+        return render_template("register.html")
+
+@app.route("/forgotPassword", methods=['POST', 'GET'])
+def forgotPassword():
+    if request.method == 'POST':
+        email = request.form['email']
+        if emailExisted(email):
+            flash("Please check your email for a code to reset password", "success")
+            # Sending email and retrieve code here
+            return redirect(request.url)
+        else:
+            flash("Your email is not registered in our system", "warning")
+            return redirect(request.url)
+    return render_template("forgotPassword.html")
 
 @app.route("/logout")
 def logout():

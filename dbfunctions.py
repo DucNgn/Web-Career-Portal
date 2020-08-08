@@ -1,6 +1,7 @@
 import sshtunnel
 import pymysql
 import config
+import random
 
 sshtunnel.SSH_TIMEOUT = 30000
 
@@ -102,7 +103,6 @@ def verifyAccount(email, password):
     sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
     sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
 
-    # print(sqlUser)
     try:
         cursor.execute(sqlUser)
         result = cursor.fetchall()
@@ -115,6 +115,21 @@ def verifyAccount(email, password):
         return False
 
 
+def emailExisted(email):
+    email.replace(" ", "")
+    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\')" 
+    sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\')"
+    try:
+        cursor.execute(sqlUser)
+        result = cursor.fetchall()
+        if result[0][0] == 0:
+            cursor.execute(sqlAdmin)
+            result = cursor.fetchall()
+        return bool(result[0][0])
+    except Exception as e:
+        print("Problem verifying user email " + str(e))
+        return False
+
 def getUserID(email, password):
     sql = "SELECT ID FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
     try:
@@ -126,12 +141,48 @@ def getUserID(email, password):
             sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
             cursor.execute(sqlAdmin)
             result = cursor.fetchall()
-            for item in results:
-                print(item)
         return result[0][0]
     except Exception as e:
         print("Problem getting user ID: " + str(e))
         return False
+
+def registerUser(firstName, lastName, title, email, password, role):
+    userID = str(createID(role))
+    password = str(password)
+    userSql = "INSERT INTO user(ID, firstName, lastName, title, login_email, password, account_status) VALUES (\'"+userID+"\', \'"+firstName+"\', \'"+lastName+"\', \'"+title+"\', \'"+email+"\', \'"+password+"\', \'active\');"
+    seekerSql = "INSERT INTO jobSeeker(ID, applyLimit) VALUES (\'"+userID+"\', \'"+str(0)+"\') "
+    employerSql = "INSERT INTO employer(ID, posting_count, postingLimit) VALUES (\'"+userID+"\', \'"+str(0)+"\' , \'"+str(0)+"\') " 
+    try:
+        cursor.execute(userSql)
+        if role =="employer":
+            cursor.execute(employerSql)
+        else:
+            cursor.execute(seekerSql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem while registering new user to the system: " + str(e))
+        return False
+
+def createID(role):
+    prefix = 123
+    if role == "employer":
+        prefix = 312
+    while True:
+        sampleID = str(prefix) + str(random.randint(0000, 9999))
+        if not isDuplicatedUID(sampleID):
+            return sampleID
+
+def isDuplicatedUID(sampleID):
+    sql= "SELECT EXISTS (SELECT * FROM user WHERE ID=\'"+sampleID+"\')" 
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchall() 
+        return bool(result[0][0])
+    except Exception as e:
+        print("Problem checking for duplicated user ID " + str(e))
+        return False 
+
 
 def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
     # sql = "INSERT INTO applyTo VALUES(\'1231221\',\'1232112\',\'2020-02-02\',\'pending\',\'coverletter\',\'resume\');"
