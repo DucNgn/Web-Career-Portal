@@ -1,10 +1,10 @@
 from __main__ import app
 from flask import flash, request, render_template, url_for, redirect, session
-from dbfunctions import verifyAccount, getUserID
+from dbfunctions import verifyAccount, getUserID, emailExisted
 
 @app.before_request
 def require_login():
-    allowed_routes = ['welcome', 'register', 'login', 'static']
+    allowed_routes = ['welcome', 'register', 'login', 'static', 'forgotPassword']
     if request.endpoint not in allowed_routes and 'email' not in session:
         return redirect('/login')
 
@@ -47,6 +47,19 @@ def register():
         password = request.form['pass']
         return redirect('login')
     return render_template("register.html")
+
+@app.route("/forgotPassword", methods=['POST', 'GET'])
+def forgotPassword():
+    if request.method == 'POST':
+        email = request.form['email']
+        if emailExisted(email):
+            flash("Please check your email for a code to reset password", "success")
+            # Sending email and retrieve code here
+            return redirect(request.url)
+        else:
+            flash("Your email is not registered in our system", "warning")
+            return redirect(request.url)
+    return render_template("forgotPassword.html")
 
 @app.route("/logout")
 def logout():

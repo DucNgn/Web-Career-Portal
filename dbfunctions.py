@@ -83,7 +83,6 @@ def verifyAccount(email, password):
     sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')" 
     sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
 
-    # print(sqlUser)
     try:
         cursor.execute(sqlUser)
         result = cursor.fetchall()
@@ -94,6 +93,23 @@ def verifyAccount(email, password):
     except Exception as e:
         print("Problem verifying user info: " + str(e))
         return False
+
+
+def emailExisted(email):
+    email.replace(" ", "")
+    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\')" 
+    sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\')"
+    try:
+        cursor.execute(sqlUser)
+        result = cursor.fetchall()
+        if result[0][0] == 0:
+            cursor.execute(sqlAdmin)
+            result = cursor.fetchall()
+        return bool(result[0][0])
+    except Exception as e:
+        print("Problem verifying user email " + str(e))
+        return False
+
 
 
 def getUserID(email, password):
