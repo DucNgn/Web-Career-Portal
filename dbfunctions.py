@@ -5,7 +5,7 @@ import random
 
 sshtunnel.SSH_TIMEOUT = 30000
 
-# Connecting to database 
+# Connecting to database
 
 server = sshtunnel.SSHTunnelForwarder(
     'login.encs.concordia.ca',
@@ -20,9 +20,9 @@ print(server.local_bind_port)
 print("Connected to server")
 
 db = pymysql.connect(
-    host="localhost", 
+    host="localhost",
     port=server.local_bind_port,
-    user=config.DB_USER, 
+    user=config.DB_USER,
     password=config.DB_PASSWORD,
     database=config.DB_DATABASE,
     connect_timeout=3100)
@@ -45,6 +45,25 @@ print("Connected to database")
 
 # db.close()
 
+def getUsers():
+    sql = "SELECT * FROM user ;"
+
+    results = []
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Fetch all the rows in a list of lists.
+        results = cursor.fetchall()
+        # for item in results:
+        #     print(item)
+    except:
+        print("Error: unable to fetch data")
+
+    # Table headers
+    field_names = [i[0] for i in cursor.description]
+
+    return field_names, results
+    
 def getJobs():
     sql = "SELECT * FROM jobs ;"
 
@@ -81,7 +100,7 @@ def postJob(job_title):
 def verifyAccount(email, password):
     email.replace(" ", "")
     password.replace(" ", "")
-    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')" 
+    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
     sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\')"
 
     try:
@@ -119,7 +138,7 @@ def getUserID(email, password):
         if result:
             return result[0][0]
         else:
-            sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'" 
+            sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
             cursor.execute(sqlAdmin)
             result = cursor.fetchall()
         return result[0][0]

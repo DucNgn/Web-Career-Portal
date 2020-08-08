@@ -13,6 +13,11 @@ import auth
 def index():
     return render_template('index.html')
 
+@app.route('/viewUsers')
+def viewUsers():
+    field_names, results = dbfunctions.getUsers()
+    return render_template('viewUsers.html', users = results, usersHeaders = field_names)
+    
 @app.route('/viewJobs')
 def viewJobs():
     field_names, results = dbfunctions.getJobs()

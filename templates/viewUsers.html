@@ -1,16 +1,102 @@
-{% extends "base.html" %} {% block title %}Sample{% endblock %} 
+{% extends "base.html" %} {% block title %}Sample{% endblock %}
 {% block content %}
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">View Users</h1>
+  <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
 
-        </div>
-        <!-- /.container-fluid -->
+  <!-- {{ usersHeaders }} -->
 
-      </div>
-      <!-- End of Main Content -->
+
+  <!-- DataTables Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    </div>
+
+    <div class="card-body">
+      <a href="#" class="btn btn-primary btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="far fa-plus-square"></i>
+        </span>
+        <span class="text">New</span>
+      </a>
+
+      <a href="#" class="btn btn-primary btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="fas fa-user-edit"></i>
+        </span>
+        <span class="text">Edit</span>
+      </a>
+
+      <a href="#" class="btn btn-primary btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="fas fa-trash"></i>
+        </span>
+        <span class="text">Delete</span>
+      </a>
+
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+
+            <tr>
+              <th> </th>
+              {% for h in usersHeaders %}
+              <th>{{ h }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+
+      <tbody>
+
+        {% for row in users %}
+        <tr>
+          <td><input type="checkbox" name = "userData" onclick= "getUserData"></td>
+          {% for d in row %}
+          <td>{{ d }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+</div>
+
+
+
+
+<!-- /.container-fluid -->
+
+
+<!-- End of Main Content -->
+
+{% endblock %}
+
+{% block js %}
+
+{{ super() }}
+
+<!--Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{ url_for('static', filename='js/demo/datatables-demo.js')}}"></script>
+
+
+<script>
+$('input[type="checkbox"]').on('change', function() {
+  $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+});
+
+</script>
+
 
 {% endblock %}
