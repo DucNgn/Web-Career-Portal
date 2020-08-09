@@ -48,6 +48,20 @@ def applyJob():
     flash('Job applied successfully!')
     return redirect(url_for('viewJobs'))
 
+@app.route('/changeStatus', methods=['POST'])
+def changeStatus():
+    # print "Blabalabla"
+    if(request.form is not None):
+        jobSeekerID = request.form['jobSeekerID']
+        status = request.form['newStatus']
+        jobID = request.form['jobID']
+        appliedDate = request.form['appliedDate']
+    # else:
+    #     print("request form is empty")
+    dbfunctions.changeStatus(jobSeekerID, jobID, appliedDate, status)
+    flash('Status changed successfully!')
+    return redirect(url_for('viewApplications'))
+
 @app.errorhandler(jinja2.exceptions.TemplateNotFound)
 def template_not_found(e):
     return not_found(e)

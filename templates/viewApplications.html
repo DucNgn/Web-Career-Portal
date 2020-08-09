@@ -37,30 +37,40 @@
               {% for h in appsHeaders %}
               <th>{{ h }}</th>
               {% endfor %}
-              <th>Change Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {% for row in apps %}
-            <tr>
+            <tr>  
               
               {% for d in row %}
               <td>{{ d }}</td>
               {% endfor %}
               </div>
               <td>
+
+                <form action="/changeStatus" method="POST">
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Change Status
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Pending</a>
-                    <a class="dropdown-item" href="#">Interviewing</a>
-                    <a class="dropdown-item" href="#">Accepted</a>
-                    <a class="dropdown-item" href="#">Rejected</a>
-                    <a class="dropdown-item" href="#">Withdrawn</a>
+                    
+                    <input type="hidden" class="form-control" name="jobSeekerID" value="{{row[0]}}">
+                    <input type="hidden" class="form-control" name="jobID" value="{{row[1]}}">
+                    <input type="hidden" class="form-control" name="appliedDate" value="{{row[2]}}">
+                    <button type="submit" name="newStatus" value="Pending" class="btn btn-success btn-sm">Pending</button>
+                    <button type="submit"  name="newStatus" value="Interviewing" class="btn btn-success btn-sm">Interviewing</button>
+                    <button type="submit" name="newStatus" value="Accepted" class="btn btn-success btn-sm">Accepted</button>
+                    <button type="submit" name="newStatus" value="Rejected" class="btn btn-success btn-sm">Rejected</button>
+                    <button type="submit" name="newStatus" value="Withdrawn" class="btn btn-success btn-sm">Withdrawn</button>
+
+                  </select>
                   </div>
                 </div>
+              </form>
+              
               </td>
             </tr>
 
@@ -73,7 +83,7 @@
 
 </div>
 
-<!-- /.container-fluid -->
+<!-- /.container-fluid
 
 </div>
 

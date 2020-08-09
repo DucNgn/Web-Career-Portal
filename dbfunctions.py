@@ -170,3 +170,19 @@ def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
         print("Problem inserting into db: " + str(e))
         return False
 
+def changeStatus(jobSeekerID, jobID, appliedDate, newStatus):
+    
+    # sql = "INSERT INTO applyTo VALUES(\'"+jobSeekerID+"\',\'"+jobID+"\',\'"+appliedDate+"\',\'pending\',\'"+coverLetter+"\',\'"+resume+"\');"
+    sql = "UPDATE applyTo SET status = newStatus WHERE jobSeeker_ID = jobSeekerID, job_ID = jobID, applyTo.appliedDate = appliedDate"
+
+    print(sql)
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Commit SQL command
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem inserting into db: " + str(e))
+        return False
+
