@@ -23,6 +23,11 @@ def viewJobs():
     field_names, results = dbfunctions.getJobs()
     return render_template('viewJobs.html', jobs = results, jobsHeaders = field_names)
 
+@app.route('/viewApplications')
+def viewApplications():
+    field_names, results = dbfunctions.getApplications()
+    return render_template('viewApplications.html', apps = results, appsHeaders = field_names)
+
 @app.route('/postJobs', methods=['POST'])
 def postJob():
     if(request.form is not None):

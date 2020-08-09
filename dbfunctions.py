@@ -44,6 +44,7 @@ print("Connected to database")
 
 # db.close()
 
+
 def getUsers():
     sql = "SELECT * FROM user ;"
 
@@ -55,6 +56,27 @@ def getUsers():
         results = cursor.fetchall()
         # for item in results:
         #     print(item)
+    except:
+        print("Error: unable to fetch data")
+
+    # Table headers
+    field_names = [i[0] for i in cursor.description]
+
+    return field_names, results
+
+def getApplications():
+    sql = "SELECT * FROM applyTo;"
+
+    results = []
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Fetch all the rows in a list of lists.
+        results = cursor.fetchall()
+        # for item in results:
+        #     print(item)
+        if (results[0] == None):
+            print ("null")
     except:
         print("Error: unable to fetch data")
 
@@ -147,3 +169,4 @@ def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
     except Exception as e:
         print("Problem inserting into db: " + str(e))
         return False
+
