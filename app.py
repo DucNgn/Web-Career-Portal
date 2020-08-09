@@ -4,12 +4,15 @@ from datetime import date
 import dbfunctions
 import jinja2.exceptions
 import secrets
+import os
 
 app = Flask(__name__)
 
 import auth
+os.environ['PORT'] = '5000'
 
-@app.route('/')
+
+@app.route('/index')
 def index():
     if session['role'] == "Seeker":
         print("Job seeker signed in")
@@ -51,7 +54,7 @@ def index():
 def viewUsers():
     field_names, results = dbfunctions.getUsers()
     return render_template('viewUsers.html', users = results, usersHeaders = field_names)
-    
+
 @app.route('/viewJobs')
 def viewJobs():
     field_names, results = dbfunctions.getJobs()
@@ -92,4 +95,5 @@ def admin(pagename):
 if __name__ == '__main__':
     secret_key = secrets.token_hex(16)
     app.config['SECRET_KEY'] = secret_key
-    app.run(debug=True)
+    port = int(os.environ['PORT'])
+    app.run(debug=True, host='0.0.0.0', port = port)
