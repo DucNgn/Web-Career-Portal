@@ -114,6 +114,20 @@ def verifyAccount(email, password):
         print("Problem verifying user info: " + str(e))
         return False
 
+def isBannedAcc(email):
+    sql ="SELECT account_status FROM user WHERE login_email = \'"+email+"\';"
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result[0][0] == "banned":
+            return True
+        else:
+            return False
+    except Exception as e:
+        print("Problem verifying if user is banned. Info: " + str(e))
+        return False
+
+
 def emailExisted(email):
     email.replace(" ", "")
     sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\')" 
