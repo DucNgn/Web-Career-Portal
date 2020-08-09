@@ -1,78 +1,78 @@
-{% extends "base.html" %} {% block title %}Sample{% endblock %} 
+{% extends "base.html" %} {% block title %}Sample{% endblock %}
 {% block content %}
 
-        {% with messages = get_flashed_messages() %} {% if messages %}
-        <div class="container">
-          <div class="alert alert-success" id="success-alert">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>Success! </strong>
-            {% for message in messages %}
-              {{ message }}
+{% with messages = get_flashed_messages() %} {% if messages %}
+<div class="container">
+  <div class="alert alert-success" id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+  </div>
+</div>
+{% endif %} {% endwith %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mb-4 text-gray-800">View Job Applications</h1>
+  <p class="mb-4">Applications received for all the jobs you have posted</p>
+
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Applications Received Table</h6>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            {% for h in appsHeaders %}
+            <th>{{ h }}</th>
             {% endfor %}
-          </div>
-        </div>
-        {% endif %} {% endwith %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in apps %}
+          <tr>
+            {% for d in row %}
+            <td>{{ d }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
+</div>
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+<!-- /.container-fluid -->
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">View Job Applications</h1>
-          <p class="mb-4">Applications Received</p>
-
-        </div>
-
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Application Received Table</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      {% for h in appsHeaders %}
-                      <th>{{ h }}</th>
-                      {% endfor %}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for row in apps %}
-                    <tr>
-                      {% for d in row %}
-	                      <td>{{ d }}</td>
-	                  {% endfor %}
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
+</div>
+<!-- End of Main Content -->
 
 {% endblock %}
 
 {% block js %}
-    {{ super() }}
-    <!-- Page level plugins -->
-    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+{{ super() }}
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js')}}"></script>
-    <script>
-      $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-          $("#success-alert").slideUp(500);
-      });
-    </script>
+<!-- Page level custom scripts -->
+<script src="{{ url_for('static', filename='js/demo/datatables-demo.js')}}"></script>
+<script>
+  $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+    $("#success-alert").slideUp(500);
+  });
+</script>
 {% endblock %}
