@@ -23,41 +23,61 @@
 
 
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Applications Received Table</h6>
-  </div>
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Applications Received Table</h6>
+    </div>
 
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead>
-          <tr>
-            {% for h in appsHeaders %}
-            <th>{{ h }}</th>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              {% for h in appsHeaders %}
+              <th>{{ h }}</th>
+              {% endfor %}
+              <th>Change Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in apps %}
+            <tr>
+              
+              {% for d in row %}
+              <td>{{ d }}</td>
+              {% endfor %}
+              </div>
+              <td>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Change Status
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Pending</a>
+                    <a class="dropdown-item" href="#">Interviewing</a>
+                    <a class="dropdown-item" href="#">Accepted</a>
+                    <a class="dropdown-item" href="#">Rejected</a>
+                    <a class="dropdown-item" href="#">Withdrawn</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
             {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in apps %}
-          <tr>
-            {% for d in row %}
-            <td>{{ d }}</td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
 </div>
 
 <!-- /.container-fluid -->
 
 </div>
+
+
 <!-- End of Main Content -->
 
 {% endblock %}
