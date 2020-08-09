@@ -11,6 +11,19 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="./static/css/login-register.css">
+
+    <!-- Bootstrap 4-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -22,6 +35,17 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{category}}" role="alert">
+                            <p>{{ message }}</p>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+
                         <form method="POST" action="/register" class="reister-form" id="register-form">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -30,6 +54,23 @@
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="lastname" id="lastname" placeholder="Last Name" required />
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="title" required>
+                                    <option value="" disabled selected hidden>Choose your title</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Miss">Miss.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="role" required>
+                                    <option value="" disabled selected hidden>Choose your role</option>
+                                    <option value="seeker">Job Seeker</option>
+                                    <option value="employer">Employer</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -42,17 +83,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" onkeyup='checkRepeat();' name="re_pass" id="re_pass" placeholder="Repeat your password" required/>
+                                <input type="password" onkeyup='checkRepeat();' name="re_pass" id="re_pass"
+                                    placeholder="Repeat your password" required />
                                 <span id='message'></span>
                             </div>
+
                             <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required/>
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required />
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
                                     statements in <a href="#" class="term-service">Terms of service</a></label>
                             </div>
+
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
                             </div>
+
                         </form>
                     </div>
                     <div class="signup-image">
@@ -65,7 +110,7 @@
     </div>
 
 </body>
-   <script src="./static/vendor/jquery/jquery.min.js"></script>
+<script src="./static/vendor/jquery/jquery.min.js"></script>
 <script>
     var checkRepeat = function () {
         if (document.getElementById('pass').value ==
