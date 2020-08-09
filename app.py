@@ -11,6 +11,40 @@ import auth
 
 @app.route('/')
 def index():
+    if session['role'] == "Seeker":
+        print("Job seeker signed in")
+        userID = session["ID"]
+
+        header1 = "Active job postings"
+        numHeader1 = dbfunctions.countActiveJobs()
+
+        header2 = "Monthly fee"
+        numHeader2 = dbfunctions.getMonthlyCharge(userID)
+
+        applyCount = dbfunctions.getApplyCount(userID)
+        header3 = "You applied to " + str(applyCount) + " positions"
+        applyLimit = dbfunctions.getApplyLimit(userID)
+        numHeader3 = ""
+        percentageHeader3 = 10
+        if applyLimit == "unlimited":
+            numHeader3 = "Unlimited"
+            percentageHeader3 = 0
+        elif int(applyLimit) == 0:
+            numHeader3 = 0
+            percentageHeader3 = 0
+        else:
+            numHeader3 = int(applyCount) / int(applyLimit) * 100
+            numHeader3 = str(numHeader3) + "%"
+            percentageHeader3 = numHeader3
+        
+        return render_template('index.html', header1 = header1,numHeader1=numHeader1,header2=header2,numHeader2 = numHeader2,header3=header3,numHeader3=numHeader3,percentageHeader3=percentageHeader3 )
+    elif session['role'] == "Employer":
+        print("Employer signed in")
+    elif session['role'] == "Admin":
+        print("Admin signed in")
+    else:
+        print("Error: Cannot identify role")
+
     return render_template('index.html')
 
 @app.route('/viewUsers')
