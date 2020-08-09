@@ -114,7 +114,6 @@ def verifyAccount(email, password):
         print("Problem verifying user info: " + str(e))
         return False
 
-
 def emailExisted(email):
     email.replace(" ", "")
     sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\')" 
@@ -198,3 +197,28 @@ def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
     except Exception as e:
         print("Problem inserting into db: " + str(e))
         return False
+
+def countActiveJobs():
+    sql = "SELECT COUNT(*) FROM jobs WHERE job_status=\"active\""
+    return count(sql)
+
+def getMonthlyCharge(ID):
+    sql = "SELECT monthly_charge FROM user WHERE ID=" + str(ID)
+    return count(sql)
+
+def getApplyCount(ID):
+    sql = "SELECT apply_count FROM jobSeeker WHERE ID=" + str(ID)
+    return count(sql)
+
+def getApplyLimit(ID):
+    sql = "SELECT applyLimit FROM jobSeeker WHERE ID=" + str(ID)
+    return count(sql)
+
+def count(query):
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result[0][0]
+    except Exception as e:
+        print("Problem in counting: query: " + query + str(e)) 
+
