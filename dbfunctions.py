@@ -242,7 +242,26 @@ def modify_payment_ID(payment_ID, ID):
         print("Problem updating payment_ID into db: " + str(e))
         return False
 
+def getApplications():
+    sql = "SELECT * FROM applyTo;"
 
+    results = []
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Fetch all the rows in a list of lists.
+        results = cursor.fetchall()
+        # for item in results:
+        #     print(item)
+        if (results[0] == None):
+            print ("null")
+    except:
+        print("Error: unable to fetch data")
+
+    # Table headers
+    field_names = [i[0] for i in cursor.description]
+
+    return field_names, results
 
 
 def deleteUser(ID):
