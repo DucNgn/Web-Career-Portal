@@ -1,0 +1,5 @@
+Pipfile
+example_config.py
+docs
+.travis.yml
+.gitignore

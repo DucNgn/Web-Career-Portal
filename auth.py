@@ -1,6 +1,6 @@
 from __main__ import app
 from flask import flash, request, render_template, url_for, redirect, session
-from dbfunctions import verifyAccount, getUserID, emailExisted, registerUser
+from dbfunctions import verifyAccount, isBannedAcc, getUserID, emailExisted, registerUser
 
 @app.before_request
 def require_login():
@@ -34,7 +34,12 @@ def login():
             elif tempID[0:3] == '123':
                 session["role"] = 'Seeker'
             else:
-                print("Error: Cannot determine role for session")            
+                print("Error: Cannot determine role for session")   
+
+            if isBannedAcc(email):
+                flash("Your account is temporary banned. Please contact our admins for inquiries. Email: admin@encs.concordia.ca", "warning")
+                return redirect(request.url)
+
             return redirect('index')
     return render_template("login.html")
 

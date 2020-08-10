@@ -136,6 +136,19 @@ def verifyAccount(email, password):
         print("Problem verifying user info: " + str(e))
         return False
 
+def isBannedAcc(email):
+    sql ="SELECT account_status FROM user WHERE login_email = \'"+email+"\';"
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result[0][0] == "banned":
+            return True
+        else:
+            return False
+    except Exception as e:
+        print("Problem verifying if user is banned. Info: " + str(e))
+        return False
+
 
 def emailExisted(email):
     email.replace(" ", "")
@@ -221,10 +234,10 @@ def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
         print("Problem inserting into db: " + str(e))
         return False
 
-def changeStatus(jobSeekerID, jobID, appliedDate, newStatus):
+
+def changeStatus(jobSeekerID, jobID, appliedD, newStatus):
     
-    # sql = "INSERT INTO applyTo VALUES(\'"+jobSeekerID+"\',\'"+jobID+"\',\'"+appliedDate+"\',\'pending\',\'"+coverLetter+"\',\'"+resume+"\');"
-    sql = "UPDATE applyTo SET status = newStatus WHERE jobSeeker_ID = jobSeekerID, job_ID = jobID, applyTo.appliedDate = appliedDate"
+    sql = "UPDATE applyTo SET status = newStatus WHERE \'"+jobSeeker_ID+"\' = jobSeekerID AND \'"+job_ID+"\' = jobID AND \'"+appliedDate+"\' = appliedD"
 
     print(sql)
     try:
@@ -236,4 +249,28 @@ def changeStatus(jobSeekerID, jobID, appliedDate, newStatus):
     except Exception as e:
         print("Problem inserting into db: " + str(e))
         return False
+
+def countActiveJobs():
+    sql = "SELECT COUNT(*) FROM jobs WHERE job_status=\"active\""
+    return count(sql)
+
+def getMonthlyCharge(ID):
+    sql = "SELECT monthly_charge FROM user WHERE ID=" + str(ID)
+    return count(sql)
+
+def getApplyCount(ID):
+    sql = "SELECT apply_count FROM jobSeeker WHERE ID=" + str(ID)
+    return count(sql)
+
+def getApplyLimit(ID):
+    sql = "SELECT applyLimit FROM jobSeeker WHERE ID=" + str(ID)
+    return count(sql)
+
+def count(query):
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result[0][0]
+    except Exception as e:
+        print("Problem in counting: query: " + query + str(e)) 
 
