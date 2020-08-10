@@ -63,7 +63,179 @@ def getUsers():
     field_names = [i[0] for i in cursor.description]
 
     return field_names, results
-    
+
+
+
+
+def modify_ID(id, old_id):
+    sql = "UPDATE user set ID=\'"+id+"\' WHERE ID=\'"+old_id+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating ID into db: " + str(e))
+        return False
+
+def modify_firstName(firstName, ID):
+    sql = "UPDATE user set firstName=\'"+firstName+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating firstName into db: " + str(e))
+        return False
+
+def modify_lastName(lastName, ID):
+    sql = "UPDATE user set lastName=\'"+lastName+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating lastName into db: " + str(e))
+        return False
+
+
+def modify_title(title, ID):
+    sql = "UPDATE user set title=\'"+title+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating title into db: " + str(e))
+        return False
+
+def modify_login_email(login_email, ID):
+    sql = "UPDATE user set login_email=\'"+login_email+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating login_email into db: " + str(e))
+        return False
+
+def modify_password(password, ID):
+    sql = "UPDATE user set password=\'"+password+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating password into db: " + str(e))
+        return False
+
+def modify_about(about, ID):
+    sql = "UPDATE user set about=\'"+about+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating about into db: " + str(e))
+        return False
+
+
+def modify_account_status(account_status, ID):
+    sql = "UPDATE user set account_status=\'"+account_status+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating account_status into db: " + str(e))
+        return False
+
+def modify_category(category, ID):
+    sql = "UPDATE user set category=\'"+category+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating category into db: " + str(e))
+        return False
+
+
+def modify_monthly_charge(monthly_charge, ID):
+    sql = "UPDATE user set monthly_charge=\'"+monthly_charge+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating monthly_charge into db: " + str(e))
+        return False
+
+def modify_contact_info(contact_info, ID):
+    sql = "UPDATE user set contact_info=\'"+contact_info+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating contact_info into db: " + str(e))
+        return False
+
+
+def modify_method_of_payment(method_of_payment, ID):
+    sql = "UPDATE user set method_of_payment=\'"+method_of_payment+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating method_of_payment into db: " + str(e))
+        return False
+
+def modify_payment_option(payment_option, ID):
+    sql = "UPDATE user set payment_option=\'"+payment_option+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating payment_option into db: " + str(e))
+        return False
+
+def modify_balance(balance, ID):
+    sql = "UPDATE user set balance=\'"+balance+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating balance into db: " + str(e))
+        return False
+
+
+def modify_payment_ID(payment_ID, ID):
+    sql = "UPDATE user set payment_ID=\'"+payment_ID+"\' WHERE ID=\'"+ID+"\';"
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem updating payment_ID into db: " + str(e))
+        return False
+
+
+
+
+def deleteUser(ID):
+    sql= "DELETE from user where id=\'"+ID+"\';"
+
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem deleting \'"+ID+"\' from db: " + str(e))
+        return False
+
 def getJobs():
     sql = "SELECT * FROM jobs ;"
 
@@ -130,7 +302,7 @@ def isBannedAcc(email):
 
 def emailExisted(email):
     email.replace(" ", "")
-    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\')" 
+    sqlUser= "SELECT EXISTS (SELECT * FROM user WHERE login_email=\'"+email+"\')"
     sqlAdmin = "SELECT EXISTS (SELECT * FROM admin WHERE login_email=\'"+email+"\')"
     try:
         cursor.execute(sqlUser)
@@ -164,7 +336,7 @@ def registerUser(firstName, lastName, title, email, password, role):
     password = str(password)
     userSql = "INSERT INTO user(ID, firstName, lastName, title, login_email, password, account_status) VALUES (\'"+userID+"\', \'"+firstName+"\', \'"+lastName+"\', \'"+title+"\', \'"+email+"\', \'"+password+"\', \'active\');"
     seekerSql = "INSERT INTO jobSeeker(ID, applyLimit) VALUES (\'"+userID+"\', \'"+str(0)+"\') "
-    employerSql = "INSERT INTO employer(ID, posting_count, postingLimit) VALUES (\'"+userID+"\', \'"+str(0)+"\' , \'"+str(0)+"\') " 
+    employerSql = "INSERT INTO employer(ID, posting_count, postingLimit) VALUES (\'"+userID+"\', \'"+str(0)+"\' , \'"+str(0)+"\') "
     try:
         cursor.execute(userSql)
         if role =="employer":
@@ -187,14 +359,14 @@ def createID(role):
             return sampleID
 
 def isDuplicatedUID(sampleID):
-    sql= "SELECT EXISTS (SELECT * FROM user WHERE ID=\'"+sampleID+"\')" 
+    sql= "SELECT EXISTS (SELECT * FROM user WHERE ID=\'"+sampleID+"\')"
     try:
         cursor.execute(sql)
-        result = cursor.fetchall() 
+        result = cursor.fetchall()
         return bool(result[0][0])
     except Exception as e:
         print("Problem checking for duplicated user ID " + str(e))
-        return False 
+        return False
 
 
 def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
@@ -234,5 +406,4 @@ def count(query):
         result = cursor.fetchall()
         return result[0][0]
     except Exception as e:
-        print("Problem in counting: query: " + query + str(e)) 
-
+        print("Problem in counting: query: " + query + str(e))

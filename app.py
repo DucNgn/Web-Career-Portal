@@ -39,7 +39,7 @@ def index():
             numHeader3 = int(applyCount) / int(applyLimit) * 100
             numHeader3 = str(numHeader3) + "%"
             percentageHeader3 = numHeader3
-        
+
         return render_template('index.html', header1 = header1,numHeader1=numHeader1,header2=header2,numHeader2 = numHeader2,header3=header3,numHeader3=numHeader3,percentageHeader3=percentageHeader3 )
     elif session['role'] == "Employer":
         print("Employer signed in")
@@ -54,6 +54,96 @@ def index():
 def viewUsers():
     field_names, results = dbfunctions.getUsers()
     return render_template('viewUsers.html', users = results, usersHeaders = field_names)
+
+@app.route('/viewUsers', methods=['POST'])
+def editUsers():
+    field_names, results = dbfunctions.getUsers()
+
+    if request.method == 'POST' and "submit-btn" in request.form:
+
+        id = request.form['ID']
+        old_id = request.form['old_ID']
+        if(id is not old_id):
+            dbfunctions.modify_ID(id, old_id)
+
+        firstName= request.form['firstName']
+        old_firstName = request.form['old_firstName']
+        if(firstName is not old_firstName):
+            dbfunctions.modify_firstName(firstName, id)
+
+        lastName= request.form['lastName']
+        old_lastName = request.form['old_lastName']
+        if(lastName is not old_lastName):
+            dbfunctions.modify_lastName(lastName, id)
+
+        title= request.form['title']
+        old_title = request.form['old_title']
+        if(title is not old_title):
+            dbfunctions.modify_title(title, id)
+
+        login_email= request.form['login_email']
+        old_login_email = request.form['old_login_email']
+        if(login_email is not old_login_email):
+            dbfunctions.modify_login_email(login_email, id)
+
+        password= request.form['password']
+        old_password = request.form['old_password']
+        if(password is not old_password):
+            dbfunctions.modify_password(password, id)
+
+        about= request.form['about']
+        old_about = request.form['old_about']
+        if(about is not old_about):
+            dbfunctions.modify_about(about, id)
+
+        account_status= request.form['account_status']
+        old_account_status = request.form['old_account_status']
+        if(account_status is not old_account_status):
+            dbfunctions.modify_account_status(account_status, id)
+
+        category= request.form['category']
+        old_category = request.form['old_category']
+        if(category is not old_category):
+            dbfunctions.modify_category(category, id)
+
+        monthly_charge= request.form['monthly_charge']
+        old_monthly_charge = request.form['old_monthly_charge']
+        if(monthly_charge is not old_monthly_charge):
+            dbfunctions.modify_monthly_charge(monthly_charge, id)
+
+        contact_info= request.form['contact_info']
+        old_contact_info = request.form['old_contact_info']
+        if(contact_info is not old_contact_info):
+            dbfunctions.modify_contact_info(contact_info, id)
+
+        method_of_payment= request.form['method_of_payment']
+        old_method_of_payment = request.form['old_method_of_payment']
+        if(method_of_payment is not old_method_of_payment):
+            dbfunctions.modify_method_of_payment(method_of_payment, id)
+
+        payment_option= request.form['payment_option']
+        old_payment_option = request.form['old_payment_option']
+        if(payment_option is not old_payment_option):
+            dbfunctions.modify_payment_option(payment_option, id)
+
+        balance= request.form['balance']
+        old_balance = request.form['old_balance']
+        if(balance is not old_balance):
+            dbfunctions.modify_balance(balance, id)
+
+        payment_ID= request.form['payment_ID']
+        old_payment_ID = request.form['old_payment_ID']
+        if(payment_ID is not old_payment_ID):
+            dbfunctions.modify_payment_ID(payment_ID, id)
+
+        return redirect(url_for('viewUsers'))
+    if request.method == 'POST' and "delete-btn" in request.form:
+        id = request.form['hidden-id']
+        dbfunctions.deleteUser(id)
+        return redirect(url_for('viewUsers'))
+
+
+    return redirect(url_for('viewUsers'))
 
 @app.route('/viewJobs')
 def viewJobs():

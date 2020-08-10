@@ -1,81 +1,166 @@
-{% extends "base.html" %} {% block title %}Sample{% endblock %}
+<!-- {% extends "base.html" %} {% block title %}Sample{% endblock %}
 {% block content %}
 
+
 <!-- Begin Page Content -->
+
+
+<!-- Page Heading -->
+
 <div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800" paddingLeft="100px">View Users</h1>
 
-  <!-- Page Heading -->
-  <h1 class="h3 mb-2 text-gray-800">View Users</h1>
-  <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+  <p class="mb-4">Search, edit and delete users.</p>
 
-  <!-- {{ usersHeaders }} -->
+  <!-- {{ usersHeader }} -->
 
-
-  <!-- DataTables Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+      <h6 class="m-0 font-weight-bold text-primary">User Table</h6>
     </div>
 
-    <div class="card-body">
-      <a href="#" class="btn btn-primary btn-icon-split">
-        <span class="icon text-white-50">
-          <i class="far fa-plus-square"></i>
-        </span>
-        <span class="text">New</span>
-      </a>
 
-      <a href="#" class="btn btn-primary btn-icon-split">
+    <div class="card-body">
+
+      <!-- {{ BUTTONS }} -->
+      <button id="edit-btn" type="button" name="button" class="btn btn-primary" id ="new-btn" onclick = "getUserData()" data-toggle= "modal" data-target="#newUserModal" disabled>
         <span class="icon text-white-50">
           <i class="fas fa-user-edit"></i>
         </span>
         <span class="text">Edit</span>
-      </a>
+      </button>
 
-      <a href="#" class="btn btn-primary btn-icon-split">
+
+      <button type="button" id="delete-btn" class="btn btn-primary" data-toggle= "modal" onclick= "deleteUser()" data-target="#deleteUserModal" disabled>
         <span class="icon text-white-50">
           <i class="fas fa-trash"></i>
         </span>
         <span class="text">Delete</span>
-      </a>
+      </button>
 
+      <!-- USERTABLE  -->
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
 
+            <!-- columnHeadings  -->
             <tr>
-              <th> </th>
+              <th></th>
               {% for h in usersHeaders %}
               <th>{{ h }}</th>
               {% endfor %}
             </tr>
           </thead>
 
-      <tbody>
+          <!-- userData  -->
+          <tbody>
 
-        {% for row in users %}
-        <tr>
-          <td><input type="checkbox" name = "userData" onclick= "getUserData"></td>
-          {% for d in row %}
-          <td>{{ d }}</td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            {% for row in users %}
+            <tr>
+              <td><input class ="checks" type="checkbox" id="check" name = "checkBoxes" value="1" ></td>
+              {% for d in row %}
+              <td>{{ d }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-</div>
-</div>
+
+
+
+  <!-- Edit User Dialog Box -->
+  <div class="modal fade" id="newUserModal" role="dialog">
+    <div class="modal-dialog">
+
+
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4>Edit User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+          <form class="form-horizontal" method="POST">
+            <div class="form-group">
+              {% for h in usersHeaders %}
+              {{ h }}
+
+              <input class="form-control" type = "text"  name ="{{h}}" id="{{h}}" required/>
+
+              <br><br>
+              {% endfor %}
+
+              <input type="hidden" id="old_ID" name="old_ID"/>
+              <input type="hidden" id="old_firstName" name="old_firstName"/>
+              <input type="hidden" id="old_lastName" name="old_lastName"/>
+              <input type="hidden" id="old_title" name="old_title"/>
+              <input type="hidden" id="old_login_email" name="old_login_email"/>
+              <input type="hidden" id="old_password" name="old_password"/>
+              <input type="hidden" id="old_about" name="old_about"/>
+              <input type="hidden" id="old_account_status" name="old_account_status"/>
+              <input type="hidden" id="old_category" name="old_category"/>
+              <input type="hidden" id="old_monthly_charge" name="old_monthly_charge"/>
+              <input type="hidden" id="old_contact_info" name="old_contact_info"/>
+              <input type="hidden" id="old_method_of_payment" name="old_method_of_payment"/>
+              <input type="hidden" id="old_payment_option" name="old_payment_option"/>
+              <input type="hidden" id="old_balance" name="old_balance"/>
+              <input type="hidden" id="old_payment_ID" name="old_payment_ID"/>
+              <input type="submit" name ="submit-btn" value="Submit" class="btn btn-default">
+            </div>
+          </form>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="removeFocus(document.getElementById('new-btn'))" >Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Delete User Dialog Box -->
+  <div class="modal fade" id="deleteUserModal" role="dialog">
+    <div class="modal-dialog">
+
+
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4>Delete User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+          <form method="post">
+            <p id="deleteid">Error</p>
+            <div id="hidden-user-id"> </div>
+            <input type="submit" value="Yes, Delete" name="delete-btn" id= "delete-btn" class="btn btn-default">
+            <input type="button" value="No, Close"  id="No-btn" name ="No-btn" class="btn btn-default">
+
+          </form>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="removeFocus(document.getElementById('new-btn'))" >Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
 </div>
+<!--container-fluid -->
 
 
-
-
-<!-- /.container-fluid -->
-
-
-<!-- End of Main Content -->
+<!--End of Main Content -->
 
 {% endblock %}
 
@@ -91,12 +176,136 @@
 <script src="{{ url_for('static', filename='js/demo/datatables-demo.js')}}"></script>
 
 
+<!-- Single Checkbox only script -->
 <script>
-$('input[type="checkbox"]').on('change', function() {
-  $('input[name="' + this.name + '"]').not(this).prop('checked', false);
-});
+
+  $('input[type="checkbox"]').on('change', function() {
+    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+  });
+
+</script>
+
+<!--diable buttons script-->
+<script>
+
+
+
+  $('#edit-btn').prop("disabled", true);
+  $('#delete-btn').prop("disabled", true);
+
+  $('input:checkbox').click(function() {
+    if ($(this).is(':checked')) {
+      $('#edit-btn').prop("disabled", false);
+      $('#delete-btn').prop("disabled", false);
+    } else {
+      if ($('.checks').filter(':checked').length < 1){
+        $('#edit-btn').attr('disabled',true);
+        $('#delete-btn').prop("disabled", true);}
+      }
+    });
+
+
+
+  </script>
+
+<!-- Get old and updated data from selected row script -->
+<script>
+
+  function getUserData(){
+
+    var grid = document.getElementById("dataTable");
+    var checkBoxes = grid.getElementsByTagName("input");
+
+
+
+    for (var i = 0; i < checkBoxes.length; i++) {
+
+      if (checkBoxes[i].checked) {
+        var row = checkBoxes[i].parentNode.parentNode;
+        var id = row.cells[1].innerHTML;
+        document.getElementById("ID").value =row.cells[1].innerHTML;
+        document.getElementById("old_ID").value =row.cells[1].innerHTML;
+
+        document.getElementById("firstName").value = row.cells[2].innerHTML;
+        document.getElementById("old_firstName").value = row.cells[2].innerHTML;
+
+        document.getElementById("lastName").value =row.cells[3].innerHTML;
+        document.getElementById("old_lastName").value =row.cells[3].innerHTML;
+
+        document.getElementById("lastName").value =row.cells[3].innerHTML;
+        document.getElementById("old_lastName").value =row.cells[3].innerHTML;
+
+        document.getElementById("title").value=row.cells[4].innerHTML;
+        document.getElementById("old_title").value =row.cells[4].innerHTML;
+
+        document.getElementById("login_email").value=row.cells[5].innerHTML;
+        document.getElementById("old_login_email").value =row.cells[5].innerHTML;
+
+        document.getElementById("password").value=row.cells[6].innerHTML;
+        document.getElementById("old_password").value =row.cells[6].innerHTML;
+
+        document.getElementById("about").value=row.cells[7].innerHTML;
+        document.getElementById("old_about").value =row.cells[7].innerHTML;
+
+        document.getElementById("account_status").value=row.cells[8].innerHTML;
+        document.getElementById("old_account_status").value =row.cells[8].innerHTML;
+
+        document.getElementById("category").value=row.cells[9].innerHTML;
+        document.getElementById("old_category").value =row.cells[9].innerHTML;
+
+        document.getElementById("monthly_charge").value=row.cells[10].innerHTML;
+        document.getElementById("old_monthly_charge").value =row.cells[10].innerHTML;
+
+        document.getElementById("contact_info").value=row.cells[11].innerHTML;
+        document.getElementById("old_contact_info").value =row.cells[11].innerHTML;
+
+        document.getElementById("method_of_payment").value=row.cells[12].innerHTML;
+        document.getElementById("old_method_of_payment").value =row.cells[12].innerHTML;
+
+
+        document.getElementById("payment_option").value=row.cells[13].innerHTML;
+        document.getElementById("old_payment_option").value =row.cells[13].innerHTML;
+
+        document.getElementById("balance").value=row.cells[14].innerHTML;
+        document.getElementById("old_balance").value =row.cells[14].innerHTML;
+
+        document.getElementById("payment_ID").value=row.cells[15].innerHTML;
+        document.getElementById("old_payment_ID").value =row.cells[15].innerHTML;
+
+      }
+
+    }
+
+  }
+</script>
+
+<!-- select row to be delted script -->
+<script>
+  function  deleteUser(){
+
+    var grid = document.getElementById("dataTable");
+    var checkBoxes = grid.getElementsByTagName("input");
+    var id;
+
+    for (var i = 0; i < checkBoxes.length; i++) {
+
+      if (checkBoxes[i].checked) {
+
+        var row = checkBoxes[i].parentNode.parentNode;
+        id = row.cells[1].innerHTML;
+        document.getElementById("deleteid").innerHTML="Are you sure you want to delete user '"+id+"' ?";
+        document.getElementById("hidden-user-id").innerHTML='<input type="hidden" id="hidden-id" name="hidden-id" value="'+id+'"/>';
+
+        break;
+      }
+
+    }
+
+  }
+
 
 </script>
 
 
-{% endblock %}
+
+  {% endblock %} -->
