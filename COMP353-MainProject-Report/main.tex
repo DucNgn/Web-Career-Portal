@@ -1,5 +1,7 @@
 \documentclass[a4paper]{article}
 
+\usepackage{pdfpages}
+\usepackage{minted}
 \usepackage{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
@@ -9,7 +11,13 @@
 \usepackage{transparent}
 \usepackage[affil-it]{authblk}
 \usepackage{graphicx}
-\graphicspath{{./images/}}
+\graphicspath{{./figures/}}
+
+\newmintedfile[inputsql]{sql}{%
+    linenos,
+    autogobble,
+    breaklines,
+}
 
 \title{COMP 353 Databases\\
 Main Project\\
@@ -18,7 +26,8 @@ Web Career Portal}
 \author{Nigel Yong Sao Young\\
     Duc Nguyen \\
     Joanna Ah Wing \\
-    Johanson Felix 
+    Johanson Felix \\
+    Darian Yee
 }
 \affil{Gina Cody School of Computer Science and Software Engineering \\
 Concordia University, Montreal, QC, Canada}
@@ -39,6 +48,5 @@ Concordia University, Montreal, QC, Canada}
 \input{6-functionalities}
 \input{7-additional}
 \input{CONTRIBUTIONS}
-
 
 \end{document}
