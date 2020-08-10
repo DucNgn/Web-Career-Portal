@@ -45,6 +45,7 @@ print("Connected to database")
 
 # db.close()
 
+
 def getUsers():
     sql = "SELECT * FROM user ;"
 
@@ -56,6 +57,27 @@ def getUsers():
         results = cursor.fetchall()
         # for item in results:
         #     print(item)
+    except:
+        print("Error: unable to fetch data")
+
+    # Table headers
+    field_names = [i[0] for i in cursor.description]
+
+    return field_names, results
+
+def getApplications():
+    sql = "SELECT * FROM applyTo;"
+
+    results = []
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Fetch all the rows in a list of lists.
+        results = cursor.fetchall()
+        # for item in results:
+        #     print(item)
+        if (results[0] == None):
+            print ("null")
     except:
         print("Error: unable to fetch data")
 
@@ -200,6 +222,22 @@ def isDuplicatedUID(sampleID):
 def applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume):
     # sql = "INSERT INTO applyTo VALUES(\'1231221\',\'1232112\',\'2020-02-02\',\'pending\',\'coverletter\',\'resume\');"
     sql = "INSERT INTO applyTo VALUES(\'"+jobSeekerID+"\',\'"+jobID+"\',\'"+appliedDate+"\',\'pending\',\'"+coverLetter+"\',\'"+resume+"\');"
+
+    print(sql)
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Commit SQL command
+        db.commit()
+        return True
+    except Exception as e:
+        print("Problem inserting into db: " + str(e))
+        return False
+
+
+def changeStatus(jobSeekerID, jobID, appliedD, newStatus):
+    
+    sql = "UPDATE applyTo SET status = newStatus WHERE \'"+jobSeeker_ID+"\' = jobSeekerID AND \'"+job_ID+"\' = jobID AND \'"+appliedDate+"\' = appliedD"
 
     print(sql)
     try:
