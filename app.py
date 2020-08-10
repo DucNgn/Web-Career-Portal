@@ -189,6 +189,16 @@ def changeStatus():
     flash('Status changed successfully!')
     return redirect(url_for('viewApplications'))
 
+@app.route('/userReporting')
+def userReporting():
+    field_names, results = dbfunctions.getUsers()
+    return render_template('userReporting.html', jobs = results, jobsHeaders = field_names)
+
+@app.route('/balanceReporting')
+def balanceReporting():
+    field_names, results = dbfunctions.getUserBalance()
+    return render_template('balanceReporting.html', jobs = results, jobsHeaders = field_names)
+
 @app.errorhandler(jinja2.exceptions.TemplateNotFound)
 def template_not_found(e):
     return not_found(e)

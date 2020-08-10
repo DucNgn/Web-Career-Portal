@@ -45,6 +45,25 @@ print("Connected to database")
 
 # db.close()
 
+def getUserBalance():
+    sql = "SELECT ID, firstName, lastName, account_status, category, monthly_charge, payment_option, method_of_payment, balance FROM user;"
+
+    results = []
+    try:
+        # Execute the SQL command
+        cursor.execute(sql)
+        # Fetch all the rows in a list of lists.
+        results = cursor.fetchall()
+        # for item in results:
+        #     print(item)
+    except:
+        print("Error: unable to fetch data")
+
+    # Table headers
+    field_names = [i[0] for i in cursor.description]
+
+    return field_names, results
+
 
 def getUsers():
     sql = "SELECT * FROM user ;"
@@ -325,6 +344,22 @@ def getUserID(email, password):
             return result[0][0]
         else:
             sqlAdmin ="SELECT ID FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
+            cursor.execute(sqlAdmin)
+            result = cursor.fetchall()
+        return result[0][0]
+    except Exception as e:
+        print("Problem getting user ID: " + str(e))
+        return False
+
+def getUserName(email, password):
+    sql = "SELECT firstName FROM user WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result:
+            return result[0][0]
+        else:
+            sqlAdmin ="SELECT firstName FROM admin WHERE login_email=\'"+email+"\' AND password=\'"+password+"\'"
             cursor.execute(sqlAdmin)
             result = cursor.fetchall()
         return result[0][0]
