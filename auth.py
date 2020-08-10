@@ -1,6 +1,6 @@
 from __main__ import app
 from flask import flash, request, render_template, url_for, redirect, session
-from dbfunctions import verifyAccount, isBannedAcc, getUserID, emailExisted, registerUser
+from dbfunctions import verifyAccount, isBannedAcc, getUserID, emailExisted, registerUser, getUserName
 
 @app.before_request
 def require_login():
@@ -26,6 +26,7 @@ def login():
             session["email"] = email
             ID = getUserID(email, password)
             session["ID"] = ID
+            session["firstName"] = getUserName(email,password)
             tempID = str(ID)
             if tempID[0:3] == '999':
                 session["role"] = "Admin"

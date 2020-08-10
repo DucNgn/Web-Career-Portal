@@ -1,11 +1,63 @@
 {% extends "base.html" %} {% block title %}Sample{% endblock %} 
 {% block content %}
 
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div class="container">
+          <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Success! </strong>
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %} {% endwith %}
+
+
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+          <h1 class="h3 mb-2 text-gray-800">User Reporting</h1>
+          <p class="mb-4">Admin sees a report of all the users on the web</p>
+
+          <!-- {{ jobsHeaders }} -->
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Jobs table</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      {% for h in jobsHeaders %}
+                      <th>{{ h }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in jobs %}
+                    <tr>
+                      <!-- <td>
+                        <form action="/applyJob" method="POST">
+                          <input type="hidden" class="form-control" name="jobSeekerID" value="{{session['ID']}}">
+                          <input type="hidden" class="form-control" name="jobID" value="{{row[0]}}">
+                          <button type="submit" class="btn btn-success btn-sm">Apply</button>
+                        </form>
+                      </td> -->
+                      {% for d in row %}
+                      <td>{{ d }}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -13,4 +65,19 @@
       </div>
       <!-- End of Main Content -->
 
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js')}}"></script>
+    <script>
+      $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+          $("#success-alert").slideUp(500);
+      });
+    </script>
 {% endblock %}
