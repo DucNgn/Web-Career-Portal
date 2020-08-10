@@ -150,6 +150,11 @@ def viewJobs():
     field_names, results = dbfunctions.getJobs()
     return render_template('viewJobs.html', jobs = results, jobsHeaders = field_names)
 
+@app.route('/viewApplications')
+def viewApplications():
+    field_names, results = dbfunctions.getApplications()
+    return render_template('viewApplications.html', apps = results, appsHeaders = field_names)
+
 @app.route('/postJobs', methods=['POST'])
 def postJob():
     if(request.form is not None):
@@ -169,6 +174,20 @@ def applyJob():
     dbfunctions.applyJob(jobSeekerID, jobID, appliedDate, coverLetter, resume)
     flash('Job applied successfully!')
     return redirect(url_for('viewJobs'))
+
+@app.route('/changeStatus', methods=['POST'])
+def changeStatus():
+    # print "Blabalabla"
+    if(request.form is not None):
+        jobSeekerID = request.form['jobSeekerID']
+        status = request.form['newStatus']
+        jobID = request.form['jobID']
+        appliedDate = request.form['appliedDate']
+    # else:
+    #     print("request form is empty")
+    dbfunctions.changeStatus(jobSeekerID, jobID, appliedDate, status)
+    flash('Status changed successfully!')
+    return redirect(url_for('viewApplications'))
 
 @app.errorhandler(jinja2.exceptions.TemplateNotFound)
 def template_not_found(e):
