@@ -1,0 +1,59 @@
+\documentclass[a4paper]{article}
+
+\usepackage{pdfpages}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{amsthm}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{transparent}
+\usepackage[affil-it]{authblk}
+\usepackage{graphicx}
+\graphicspath{ {./figures/} }
+
+\newmintedfile[inputsql]{sql}{%
+    linenos,
+    autogobble,
+    breaklines,
+}
+
+\title{COMP 353 Databases\\
+Main Project\\
+Web Career Portal}
+
+\author{Nigel Yong Sao Young\\
+    Duc Nguyen\\
+    Joanna Lau Ah Wing\\
+    Johanson Felix\\
+    Darian Yee\\
+    Team ID: qxc353\_1 
+}
+\affil{Gina Cody School of Computer Science and Software Engineering \\
+Concordia University, Montreal, C, Canada}
+\date{Summer 2020}
+
+\begin{document}
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+
+\begin{itemize}
+    \item Link to the website: https://career-portal-353.herokuapp.com/login
+    \item GitHub Repo: https://github.com/DukeNgn/Web-Career-Portal
+\end{itemize}
+
+%\input{1-EOO}
+%\input{2-assumptions}
+\input{3-ERDiagram}
+\input{4-relations}
+\input{5-normalization}
+\input{6-functionalities}
+%\input{7-additional}
+\input{CONTRIBUTIONS}
+
+\end{document}

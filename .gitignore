@@ -6,6 +6,9 @@ credentials.json
 *.log
 *.toc
 *.pdf
+*.dvi
 env
 __pycache__/
 config.py
+
+\_minted-main
