@@ -104,3 +104,14 @@ DB_DATABASE="DB_DATABASE"
 
 ## Dependencies:
 Consult the file [requirements.txt](./requirements.txt) for a full list of used dependencies
+
+## Compile LaTeX docs:
++ The report uses package `minted` to import and style SQL code. The package requires `Pygments` to be installed in the machine.
++ See the instruction for installing and building pdf with `minted`: [here](http://tug.ctan.org/macros/latex/contrib/minted/minted.pdf)
+
+## Contributors:
++ [Duc Nguyen](https://github.com/DukeNgn)
++ [Nigel Yong](https://github.com/niyonx)
++ [Joanna Lau Ah Wing](https://github.com/joanna-law)
++ [Johanson Felix](https://github.com/johansonfelix)
++ [Darian Yee](https://github.com/darianyee)
